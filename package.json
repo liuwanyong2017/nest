@@ -1,0 +1,8 @@
+{
+  "name": "nest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:liuwanyong2017/nest.git",
+  "author": "liuwanyong2017 <2674706698@qq.com>",
+  "license": "MIT"
+}
