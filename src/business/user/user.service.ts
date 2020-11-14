@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import {User} from "../../bd/db_user";
 
 @Injectable()
 export class UserService {
-    findOne(username:string):string{
-        if (username == 'ha'){
-            return 'haha'
-        }
-        return 'oh!'
+    async findOne(username:string):Promise<any>{
+        return await User.findByName(username)
     }
 }

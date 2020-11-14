@@ -6,7 +6,7 @@ export class UserController {
     constructor(private readonly usersService:UserService) {
     }
     @Post('find-one')
-    findOne(@Body() body:any){
-        return this.usersService.findOne(body.username)
+    async findOne(@Body() body:any){
+        return await  this.usersService.findOne(body.username)
     }
 }
