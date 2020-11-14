@@ -1,7 +1,7 @@
 import {TypeOrmModule} from "@nestjs/typeorm";
 
 
-export const mysqlOrm = TypeOrmModule.forRoot(
+export const mysqlOrm = (obj: object) => TypeOrmModule.forRoot(
     {
         port: 3306,
         host: "localhost",
@@ -11,6 +11,6 @@ export const mysqlOrm = TypeOrmModule.forRoot(
         database: "nest",
         synchronize: true,  //同步的
         logging: true,
-        entities: ["../src/**/*.entity{.ts,.js}"]  //数据表的文件模块的导入！，全局静态文件地址。需要看app.module.ts文件的路径
+        ...obj
     }
 );

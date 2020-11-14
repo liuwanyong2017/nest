@@ -1,14 +1,23 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserService } from './business/user/user.service';
-import { UserController } from './business/user/user.controller';
+import {UserModule} from "./business/user/user.module";
 import {mysqlOrm} from "../config/ormconfig";
+
+
 @Module({
   imports: [
-      mysqlOrm
+      mysqlOrm(
+          {
+              entities: [
+                  __dirname + "/**/*.entity{.ts,.js}"
+              ]  //数据表的文件模块的导入！，全局静态文件地址。需要看app.module.ts文件的路径
+          }
+      ),
+      UserModule,
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+}
