@@ -17,7 +17,7 @@ export class UserService {
     async create(userDto: CreateUserDto): Promise<User> {
         const user = await this.findOneByName(userDto.name);
         if (user && user.id) { throw new Error("用户名已占用！")};
-        return this.userRepository.create(userDto);
+        return this.userRepository.save(userDto);
     }
 
     async delete(id: string) {

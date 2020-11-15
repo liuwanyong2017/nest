@@ -8,7 +8,7 @@ export class User {
     @Column('text')
     name: string;
 
-    @Column({default: false})
+    @Column("boolean",{default: false})
     deleted: boolean;
 
     @Column({default: 5})

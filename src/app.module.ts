@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {UserModule} from "./business/user/user.module";
 import {mysqlOrm} from "../config/ormconfig";
+import {TypeOrmModule} from "@nestjs/typeorm";
 
 
 @Module({
