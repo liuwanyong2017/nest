@@ -2,7 +2,7 @@ import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "./user.entity";
 import {Repository} from "typeorm";
-import UserDto from "./user.dto";
+import CreateUserDto, {UpdateUserDto} from "./user.dto";
 
 // import {User} from "../../bd/db_user";
 
@@ -14,21 +14,21 @@ export class UserService {
     ) {
     }
 
-    async create(userDto: UserDto): Promise<User> {
+    async create(userDto: CreateUserDto): Promise<User> {
         const user = await this.findOneByName(userDto.name);
-        if (user && user.id) throw new Error("用户名已占用！");
+        if (user && user.id) { throw new Error("用户名已占用！")};
         return this.userRepository.create(userDto);
     }
 
-    async delete(id: number) {
+    async delete(id: string) {
         return await this.userRepository.delete(id);
     }
 
-    async update(userDto: UserDto) {
-        return await this.userRepository.update(userDto.id, userDto);
+    async update(id:string,userDto: UpdateUserDto) {
+        return await this.userRepository.update(id, userDto);
     }
 
-    async findOneById(id: number) {
+    async findOneById(id: string) {
         return await this.userRepository.findOne(id);
     }
 
