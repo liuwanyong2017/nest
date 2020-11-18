@@ -12,7 +12,7 @@ export class BaseException extends HttpException {
 }
 
 //自定义异常过滤器，捕获异常！同时自定义返回数据！
-@Catch()   //捕获什么实例暴露的异常
+@Catch(BaseException)   //捕获什么实例暴露的异常
 export class HttpExceptionFilter implements ExceptionFilter {
     catch(exception: BaseException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();

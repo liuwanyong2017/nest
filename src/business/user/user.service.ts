@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import { Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "./user.entity";
 import {Repository} from "typeorm";
@@ -20,6 +20,7 @@ export class UserService {
         if (user && user.id) {
             throw new NameOccupied();
         }
+        ;
         return this.userRepository.save(userDto);
     }
 
