@@ -3,6 +3,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "./user.entity";
 import {Repository} from "typeorm";
 import CreateUserDto, {UpdateUserDto} from "./user.dto";
+import {NameOccupied} from "./user.exception.type";
 
 // import {User} from "../../bd/db_user";
 
@@ -16,7 +17,9 @@ export class UserService {
 
     async create(userDto: CreateUserDto): Promise<User> {
         const user = await this.findOneByName(userDto.name);
-        if (user && user.id) { throw new Error("用户名已占用！")};
+        if (user && user.id) {
+            throw new NameOccupied();
+        }
         return this.userRepository.save(userDto);
     }
 
@@ -24,7 +27,7 @@ export class UserService {
         return await this.userRepository.delete(id);
     }
 
-    async update(id:string,userDto: UpdateUserDto) {
+    async update(id: string, userDto: UpdateUserDto) {
         return await this.userRepository.update(id, userDto);
     }
 
