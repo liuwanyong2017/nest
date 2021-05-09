@@ -8,9 +8,7 @@ export class UserController {
 
     @Post("token")
     async getToken(@Body("account") code: string) {
-        console.log(code,1);
         const token = await this.userService.codeToToken(code);
-        console.log(token,3);
         return token;
     }
 }
