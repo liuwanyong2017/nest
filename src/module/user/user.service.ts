@@ -4,6 +4,7 @@ import {format} from "util";
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "./user.entity";
 import {Repository} from "typeorm";
+import {AuthService} from "../auth/auth.service";
 
 
 @Injectable()
@@ -11,7 +12,8 @@ export class UserService {
     constructor(
         private readonly httpService: HttpService,
         @InjectRepository(UserEntity)
-        private usersRepository: Repository<UserEntity>
+        private usersRepository: Repository<UserEntity>,
+        private authService: AuthService
     ) {
     }
 
@@ -25,15 +27,17 @@ export class UserService {
                 status, error: "失败了！" + statusText
             }, status);
         }
+        let user;
         if (data.openid) {
-            let user = await this.verifyOpenid(data.openid);
-            console.log(user, 1);
+            user = await this.verifyOpenid(data.openid);
             if (!user) {
                 user = await this.openidCreated(data.openid);
-                console.log(user, 2);
             }
         }
-        return data;
+        const uid = user.id, role = user.role || "visitor";
+        const token = this.authService.generateToken(uid, role);
+
+        return token;
     }
 
     async verifyOpenid(openid) {

@@ -6,18 +6,18 @@ export class UserEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column('varchar',{
+    @Column("varchar", {
         length: 100, default: null, unique: true
     })
     name: string;
 
-    @Column('varchar',{
+    @Column("varchar", {
         select: false, default: null,
     })
     password: string;
 
     @Column({
-        unique: true, select: false, default: null,update:false
+        unique: true, select: false, default: null, update: false
     })
     openid: string;
 
