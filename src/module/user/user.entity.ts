@@ -21,8 +21,8 @@ export class UserEntity {
     })
     openid: string;
 
-    @Column("tinytext", {default: null})
-    role: string;
+    @Column( {default: 'visitor',length:100})
+    role: 'visitor'|'buyer'|'seller'|'admin';
 
     @Column({length: 200, default: null})
     email: string;

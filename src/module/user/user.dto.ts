@@ -10,7 +10,7 @@ export class UserDto{
     @IsString()
     readonly openid:string;
     @IsString()
-    readonly role:null|"visitor" | "buyer" | "seller" | "admin";
+    readonly role:"visitor" | "buyer" | "seller" | "admin";
     @IsString()
     readonly email:string;
     @IsString()

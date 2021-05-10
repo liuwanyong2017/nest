@@ -1,5 +1,8 @@
-import {HttpException, Injectable} from "@nestjs/common";
+import {HttpException, HttpService, Injectable} from "@nestjs/common";
 import {JwtService} from "@nestjs/jwt";
+
+import {UserService} from "../user/user.service";
+import {UserEntity} from "../user/user.entity";
 
 const obj = {
     visitor: 8,
@@ -13,30 +16,42 @@ export class AuthService {
     roles = obj;
 
     constructor(
-        private readonly jwtService: JwtService
+        private readonly httpService: HttpService,
+        private readonly jwtService: JwtService,
+        private readonly userService: UserService
     ) {
 
     }
 
-    generateToken(uid: number, scope: "visitor" | "buyer" | "seller" | "admin") {  //scope是用户身份权限值
-        const token = this.jwtService.sign(
-            {
-                uid, scope: this.roles[scope]
-            }
-        );
-        console.log(this.jwtService.verify(token));
-        return token;
+
+    async _openidToUser(openid: string) {
+        let user = await this.userService.verifyOpenid(openid);
+        if (!user) {
+            user = await this.userService.openidCreated(openid);
+        }
+        return user;
     }
 
-    getToken(val: string) {
-        try {
-            var token = this.jwtService.verify(val);
-        } catch (e) {
-            if (e.name === "TokenExpiredError") {
-                throw new HttpException("token已过期！", 200);
-            }
-        }
-        return token;
-        //约定好前端，token用httpBasicAuth验证，放在header里
+    async userToToken(user: UserEntity) {
+        const uid = user.id, role = user.role;
+        return this._generateToken(uid, role);
     }
+
+    async wxCodeToToken(openid: string) {
+        //把从code到openid的过程放到中间键里了！得到的数据放在req里了！
+        const user = await this._openidToUser(openid);
+        return this.userToToken(user);
+    }
+
+
+    _generateToken(sub: number, scope: "visitor" | "buyer" | "seller" | "admin") {  //scope是用户身份权限值
+        const token = this.jwtService.sign(
+            {
+                sub, scope: this.roles[scope]
+                //sub字段是看官方文档说要跟jwt保持一致用sub的，而不是uid。
+            }
+        );
+        return {token};
+    }
+
 }
