@@ -7,6 +7,7 @@ import {Connection} from "typeorm";
 import {UserEntity} from "./module/user/user.entity";
 import {WxCodeMiddleware} from "./middleware/wx.code.middleware";
 import {HttpGlobalModule} from "./module/httpGlobalModule";
+import {ImgModule} from "./module/imgWork/img.module";
 
 
 @Module({
@@ -18,6 +19,7 @@ import {HttpGlobalModule} from "./module/httpGlobalModule";
         }),
         UserModule,
         HttpGlobalModule,
+        ImgModule,
     ],
     controllers: [AppController],
     providers: [AppService],
