@@ -1,4 +1,4 @@
-import { Injectable} from "@nestjs/common";
+import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "./user.entity";
 import {Repository} from "typeorm";
@@ -23,5 +23,9 @@ export class UserService {
     async openidCreated(openid) {
         const user = await this.usersRepository.save({openid});
         return user;
+    }
+
+    async findById(id) {
+        return await this.usersRepository.findOne(id);
     }
 }

@@ -44,10 +44,10 @@ export class AuthService {
     }
 
 
-    _generateToken(sub: number, scope: "visitor" | "buyer" | "seller" | "admin") {  //scope是用户身份权限值
+    _generateToken(id: number, scope: "visitor" | "buyer" | "seller" | "admin") {  //scope是用户身份权限值
         const token = this.jwtService.sign(
             {
-                sub, scope: this.roles[scope]
+                id, scope: this.roles[scope]
                 //sub字段是看官方文档说要跟jwt保持一致用sub的，而不是uid。
             }
         );
